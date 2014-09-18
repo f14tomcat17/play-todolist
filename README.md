@@ -2,4 +2,6 @@
 
 Una app de prueba.
 
-Pendiente: subir a Heroku.
+# Heroku
+
+http://fierce-ocean-2532.herokuapp.com/
