@@ -15,6 +15,18 @@ val task = {
   }
 }
 
+  def porLabel(label: String): Option[Task] = {
+    DB.withConnection { implicit connection =>
+      SQL("select * from task where label = {label}").on('label -> label).as(Task.task.singleOpt)
+    }
+  }
+
+  def porId(id: Long): Option[Task] = {
+    DB.withConnection { implicit connection =>
+      SQL("select * from task where id = {id}").on('id -> id).as(Task.task.singleOpt)
+    }
+  }
+
   def all(): List[Task] = DB.withConnection { implicit c =>
   SQL("select * from task").as(task *)
 }
