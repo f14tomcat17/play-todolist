@@ -36,6 +36,11 @@ object Application extends Controller {
     val json = Json.toJson(Task.all())
     Ok(json)
   }
+
+    def getTask (id:Long) = Action {
+    val json = Json.toJson(Task.porId(id))
+    Ok(json)
+  }
   
 /*def newTask = Action { implicit request =>
   taskForm.bindFromRequest.fold(
