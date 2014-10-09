@@ -42,15 +42,15 @@ object Application extends Controller {
     Ok(json)
   }
   
-/*def newTask = Action { implicit request =>
-  taskForm.bindFromRequest.fold(
-    errors => BadRequest(views.html.index(Task.all(), errors)),
-    label => {
-      Task.create(label)
-      Redirect(routes.Application.tasks)
-    }
-  )
-}*/
+  def saveTask = Action { implicit request =>
+    taskForm.bindFromRequest.fold(
+      errors => BadRequest("Error al crear tarea"),
+      label => {
+        Task.create(label)
+        Created("Tarea creada"+Json.toJson(Task.porLabel(label)))
+      }
+    )
+  }
   
   def deleteTask(id: Long) = Action {
     if (Task.porId(id) == None) {
