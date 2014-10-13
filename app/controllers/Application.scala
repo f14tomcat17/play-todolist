@@ -42,7 +42,7 @@ object Application extends Controller {
     Ok(json)
   }
   
-  def saveTask = Action { implicit request =>
+  /*def saveTask = Action { implicit request =>
     taskForm.bindFromRequest.fold(
       errors => BadRequest("Error al crear tarea"),
       label => {
@@ -50,7 +50,7 @@ object Application extends Controller {
         Created("Tarea creada"+Json.toJson(Task.porLabel(label)))
       }
     )
-  }
+  }*/
   
   def deleteTask(id: Long) = Action {
     if (Task.porId(id) == None) {
