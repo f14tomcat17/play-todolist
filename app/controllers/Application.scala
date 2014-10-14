@@ -19,17 +19,19 @@ object Application extends Controller {
     "label" -> nonEmptyText
   )
 
-  def index = Action {
-    Redirect(routes.Application.listTasks)
+    def index = Action {
+      Redirect(routes.Application.listTasks("anon"))
   }
 
 
   implicit val taskReads: Reads[Task] = (
       (JsPath \ "id").read[Long] and
+      (JsPath \ "username").read[String] and
       (JsPath \ "label").read[String])(Task.apply _)
 
   implicit val taskWrites: Writes[Task] = (
       (JsPath \ "id").write[Long] and
+      (JsPath \ "username").write[String] and
       (JsPath \ "label").write[String])(unlift(Task.unapply))
 
   def listTasks = Action {
@@ -37,9 +39,14 @@ object Application extends Controller {
     Ok(json)
   }
 
-    def getTask (id:Long) = Action {
+  def getTask (id:Long) = Action {
     val json = Json.toJson(Task.porId(id))
-    Ok(json)
+    if(json == null) {
+      NotFound("Task "+id+" not found")
+    } 
+    else {
+      Ok(json)
+    }
   }
   
   /*def saveTask = Action { implicit request =>
