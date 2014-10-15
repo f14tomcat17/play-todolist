@@ -18,4 +18,4 @@ Próximamente...
 
 Desplegada en el siguiente enlace:
 
-http://fierce-ocean-2532.herokuapp.com/
+http://hidden-inlet-2087.herokuapp.com/
