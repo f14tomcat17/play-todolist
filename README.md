@@ -6,6 +6,14 @@ En esta práctica 1 desarrollamos una API REST basada en el proyecto de la prác
 
 Consistente en crear la API REST básica. Gracias a ello, trabajamos con las peticiones GET, POST y DELETE y mediante ello podemos trabajar con la lista de tareas, ya sea mediante consultas, inserciones o borrados.
 
+# Feature 2
+
+Ahora la API REST trabaja con usuarios. Las tareas se relacionan directamente con dichos usuarios, no pudiendo ser creadas sin pertenecer a alguno de ellos. Para ello se ha modificado la BD para añadir una tabla nueva (task_user) y se ha alterado la existente para añadir un atributo extra (username) que tome valores de estos. Además, ahora existe un usuario 'anon' para contemplar las peticiones HTTP de la feature anterior (GET /tasks o POST /tasks), mientras que para el resto de los usuarios es necesario introducir el usuario en la URL (GET /{login}/tasks/ o POST /{login}/tasks).
+
+# Feature 3
+
+Próximamente...
+
 # Heroku
 
 Desplegada en el siguiente enlace:
