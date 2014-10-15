@@ -16,11 +16,26 @@ val task = {
   }
 }
 
-  def porLabel(label: String): Option[Task] = {
+ def porUsuario(username: String): List[Task] = {
     DB.withConnection { implicit connection =>
-      SQL("select * from task where label = {label}").on('label -> label).as(Task.task.singleOpt)
+      SQL("select * from task where username = {username}").on('username -> username).as(Task.task *)
     }
   }
+
+   def porUsuarioLabel(username: String, label:String): Option[Task] = {
+    DB.withConnection { implicit connection =>
+      SQL("select * from task where username = {username} and label = {label}").on(
+        'username -> username,
+        'label -> label).as(Task.task.singleOpt)
+    }
+  }
+
+  def usuarioPorNombre(name:String): Option[String] = {
+    DB.withConnection { implicit connection =>
+      SQL("select name from task_user where name = {name}").on('name -> name).as(str("name").singleOpt)
+    }
+  }
+
 
   def porId(id: Long): Option[Task] = {
     DB.withConnection { implicit connection =>

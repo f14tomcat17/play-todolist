@@ -11,17 +11,16 @@ import play.api.libs.functional.syntax._
 import views._
 import models._
 
-
-
 object Application extends Controller {
 
-  val taskForm = Form(
-    "label" -> nonEmptyText
-  )
 
     def index = Action {
       Redirect(routes.Application.listTasks("anon"))
   }
+  val taskForm = Form(
+      "label" -> nonEmptyText
+  )
+
 
 
   implicit val taskReads: Reads[Task] = (
@@ -34,10 +33,11 @@ object Application extends Controller {
       (JsPath \ "username").write[String] and
       (JsPath \ "label").write[String])(unlift(Task.unapply))
 
-  def listTasks = Action {
-    val json = Json.toJson(Task.all())
+  def listTasks (username:String) = Action {
+    val json = Json.toJson(Task.porUsuario(username))
     Ok(json)
   }
+
 
   def getTask (id:Long) = Action {
     val json = Json.toJson(Task.porId(id))
@@ -48,24 +48,31 @@ object Application extends Controller {
       Ok(json)
     }
   }
-  
-  /*def saveTask = Action { implicit request =>
+
+
+  def saveTask (username:String)= Action { implicit request =>
     taskForm.bindFromRequest.fold(
       errors => BadRequest("Error al crear tarea"),
       label => {
-        Task.create(label)
-        Created("Tarea creada"+Json.toJson(Task.porLabel(label)))
+        if(Task.usuarioPorNombre(username)==None) {
+          NotFound("User "+username+" not found")
+        }
+        else {
+          Task.create(username, label)
+          val json = Json.toJson(Task.porUsuarioLabel(username, label))
+          Created("Tarea creada "+json)
+        }
       }
     )
-  }*/
-  
+  }
+
   def deleteTask(id: Long) = Action {
     if (Task.porId(id) == None) {
       NotFound("No se ha encontrado la tarea mencionada")
     }
     else {
       Task.delete(id)
-      Redirect(routes.Application.listTasks)
+      Ok("Borrada correctamente")
     }
   }
   
